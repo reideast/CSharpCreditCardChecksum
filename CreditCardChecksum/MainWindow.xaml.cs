@@ -1,4 +1,6 @@
-﻿using System;
+﻿//credit card validation rules from: http://web.eecs.umich.edu/~bartlett/credit_card_number.html
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,29 +40,77 @@ namespace CreditCardChecksum
 
         private void ProcessPaymentClick(object sender, RoutedEventArgs e)
         {
-            //BitmapImage visaActive = new BitmapImage(new Uri("Card_Visa_active.gif", UriKind.Relative));
-            
-
             if (string.IsNullOrWhiteSpace(CreditCardNumber.Text))
-                throw new inpute
-            
             {
-                if (CreditCardNumber.Text.Length >= 1 && CreditCardNumber.Text[0] == '4')
-                    activateLogo(0);
-                else if (CreditCardNumber.Text.Length >= 2 && CreditCardNumber.Text[0] == '5' && CreditCardNumber.Text[1] >= '1' && CreditCardNumber.Text[1] <= '5')
-                    activateLogo(1);
-                else if (CreditCardNumber.Text.Length >= 2 && CreditCardNumber.Text[0] == '3' && (CreditCardNumber.Text[1] == '4' || CreditCardNumber.Text[1] == '7'))
-                    activateLogo(3);
-                else if (CreditCardNumber.Text.Length >= 4 && CreditCardNumber.Text.Substring(0, 4) == "6011")
-                    activateLogo(2);
-                else
-                    activateLogo(-1);
+                MessageBox.Show("Credit card number is blank.");
             }
             else
             {
-                activateLogo(-1);
-            }
+                //int parsedValue;
+                //if (int.TryParse(CreditCardNumber.Text, out parsedValue))
 
+                if (validCardIndex == 0)// && (CreditCardNumber.Text.Length == 16 || CreditCardNumber.Text.Length == 13))
+                {
+                    bool validCard = ValidateLuhn(CreditCardNumber.Text);
+                }
+                else if (validCardIndex == -1)
+                {
+                    MessageBox.Show("Invalid credit card entered.");
+                }
+            }
+            
+            //{
+            //    if (CreditCardNumber.Text.Length >= 1 && CreditCardNumber.Text[0] == '4')
+            //        activateLogo(0);
+            //    else if (CreditCardNumber.Text.Length >= 2 && CreditCardNumber.Text[0] == '5' && CreditCardNumber.Text[1] >= '1' && CreditCardNumber.Text[1] <= '5')
+            //        activateLogo(1);
+            //    else if (CreditCardNumber.Text.Length >= 2 && CreditCardNumber.Text[0] == '3' && (CreditCardNumber.Text[1] == '4' || CreditCardNumber.Text[1] == '7'))
+            //        activateLogo(3);
+            //    else if (CreditCardNumber.Text.Length >= 4 && CreditCardNumber.Text.Substring(0, 4) == "6011")
+            //        activateLogo(2);
+            //    else
+            //        activateLogo(-1);
+            //}
+            //else
+            //{
+            //    activateLogo(-1);
+            //}
+
+        }
+
+        private bool ValidateLuhn(string text)
+        {
+            //put a leading zero on any odd-length string, allowing algorithm to process left-to-right
+            if (text.Length % 2 == 1)
+                text = '0' + text;
+
+            int sum = 0;
+            int position = 0;
+            foreach(char digit in text)
+            {
+                if (position++ % 2 == 1)
+                {
+                    sum += digit - '0';
+                }
+                else
+                {
+                    sum += (digit - '0') * 2;
+                    if (digit - '0' >= 6) //6 through 9
+                        sum -= 9; //see logic below for magic number "9"
+                }
+                // 6*2=12, 7*2=14, 8*2=16, 9*2=18
+                //  6->3   7->5    8->7    9->9
+                //  -3      -2      -1      -0
+                // digit - (9 - digit) ---> digit - 9 + digit ----> derived formula: 2*digit - 9
+                // 9-6=3   9-7=2   9-8=1   9-9=0 //testing ()
+                // 12-9=3  14-9=5  16-9=7  18-9=9 //testing
+            }
+            MessageBox.Show(sum.ToString()); //4011 == 11
+
+            if (sum % 10 == 0)
+                return true;
+            else
+                return false;
         }
 
         private void CreditCardNumber_TextChanged(object sender, TextChangedEventArgs e)
