@@ -1,0 +1,73 @@
+﻿<Window x:Class="CreditCardChecksum.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CreditCardChecksum"
+        mc:Ignorable="d"
+        Title="Process Credit Card Payment" Height="248" Width="350" ResizeMode="NoResize">
+    <Grid>
+        <!-- Master Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="45*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Text Boxes -->
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label x:Name="labelProcessPayment" Grid.Row="1" Grid.Column="0" Content="Credit Card _Number:" HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Width="119" HorizontalContentAlignment="Right"/>
+            <TextBox x:Name="CreditCardNumber" Grid.Row="1" Grid.Column="2" Text="0000000000000000" MaxLength="16" Height="23" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label x:Name="labelPayeeName" Grid.Row="3" Grid.Column="0" Content="_Payee Name:" HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Width="119" HorizontalContentAlignment="Right"/>
+            <TextBox x:Name="PayeeName" Grid.Column="2" Height="23" Grid.Row="3" Text="" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label x:Name="labelExpirationDate" Grid.Row="5" Grid.Column="0" Content="E_xpiration Date:" HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Width="119" HorizontalContentAlignment="Right"/>
+            <TextBox x:Name="ExpirationDate" Grid.Column="2" Height="23" Grid.Row="5" Text="" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label x:Name="labelCVC" Grid.Row="7" Grid.Column="0" Content="_CVC:" HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Width="119" HorizontalContentAlignment="Right"/>
+            <TextBox x:Name="CVC" Grid.Column="2" Height="23" Grid.Row="7" Text="" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+        </Grid>
+
+        <!-- CC Logos -->
+        <Grid Grid.Column="3" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+            <Image x:Name="LogoVisa" Grid.Row="0"/>
+            <Image x:Name="LogoMasterCard" Grid.Row="2"/>
+            <Image x:Name="LogoDiscover" Grid.Row="4"/>
+            <Image x:Name="LogoAmericanExpress" Grid.Row="6"/>
+        </Grid>
+
+        <Button x:Name="ProcessPayment" Grid.Row="3" Grid.Column="1" Content="P_rocess Payment" HorizontalAlignment="Center" VerticalAlignment="Center" IsDefault="True" Height="23" Width="119" Click="ProcessPaymentClick"/>
+    </Grid>
+</Window>
