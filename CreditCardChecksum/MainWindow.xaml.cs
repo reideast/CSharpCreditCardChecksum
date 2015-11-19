@@ -40,47 +40,47 @@ namespace CreditCardChecksum
 
         private void ProcessPaymentClick(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(CreditCardNumber.Text))
+            bool isValidPaymentDetails = true;
+
+            if (string.IsNullOrWhiteSpace(CreditCardNumber.Text)) //if user enters nothing, then clicks submit, this state can be reached
             {
-                MessageBox.Show("Credit card number is blank.");
+                MessageBox.Show("DEBUG ERROR: Credit card number is blank.");
+                isValidPaymentDetails = false;
             }
             else
             {
-                //int parsedValue;
-                //if (int.TryParse(CreditCardNumber.Text, out parsedValue))
-
-                if (validCardIndex == 0)// && (CreditCardNumber.Text.Length == 16 || CreditCardNumber.Text.Length == 13))
+                //validCardIndex will be 0-3 for the four credit card types (and therefore MUST be 100% numeric) or -1 for invalid
+                if ((validCardIndex == 0 && (CreditCardNumber.Text.Length == 16 || CreditCardNumber.Text.Length == 13))
+                 || (validCardIndex == 1 && CreditCardNumber.Text.Length == 16)
+                 || (validCardIndex == 2 && CreditCardNumber.Text.Length == 16)
+                 || (validCardIndex == 3 && CreditCardNumber.Text.Length == 15))
                 {
-                    bool validCard = ValidateLuhn(CreditCardNumber.Text);
+                    if (!ValidateLuhn(CreditCardNumber.Text)) //perform checksum validation
+                    {
+                        MessageBox.Show("DEBUG ERROR: Credit card number failed checksum.");
+                        isValidPaymentDetails = false;
+                    }
                 }
                 else if (validCardIndex == -1)
                 {
-                    MessageBox.Show("Invalid credit card entered.");
+                    MessageBox.Show("DEBUG ERROR: Credit card number does not match a valid card type.");
+                    isValidPaymentDetails = false;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("Card was neither valid nor set to invalid sentinel value.");
                 }
             }
             
-            //{
-            //    if (CreditCardNumber.Text.Length >= 1 && CreditCardNumber.Text[0] == '4')
-            //        activateLogo(0);
-            //    else if (CreditCardNumber.Text.Length >= 2 && CreditCardNumber.Text[0] == '5' && CreditCardNumber.Text[1] >= '1' && CreditCardNumber.Text[1] <= '5')
-            //        activateLogo(1);
-            //    else if (CreditCardNumber.Text.Length >= 2 && CreditCardNumber.Text[0] == '3' && (CreditCardNumber.Text[1] == '4' || CreditCardNumber.Text[1] == '7'))
-            //        activateLogo(3);
-            //    else if (CreditCardNumber.Text.Length >= 4 && CreditCardNumber.Text.Substring(0, 4) == "6011")
-            //        activateLogo(2);
-            //    else
-            //        activateLogo(-1);
-            //}
-            //else
-            //{
-            //    activateLogo(-1);
-            //}
-
+            if (isValidPaymentDetails)
+            {
+                MessageBox.Show("DEBUG: Credit card number is valid. Process payment now.");
+            }
         }
 
         private bool ValidateLuhn(string text)
         {
-            //put a leading zero on any odd-length string, allowing algorithm to process left-to-right
+            //put a leading zero on any odd-length string, allowing algorithm to process left-to-right rather than R-to-L
             if (text.Length % 2 == 1)
                 text = '0' + text;
 
@@ -115,26 +115,26 @@ namespace CreditCardChecksum
 
         private void CreditCardNumber_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //if (int.Parse(CreditCardNumber.Text) == 0)
-            int value;
-            //if (int.TryParse(CreditCardNumber.Text, out value))
-            if (!string.IsNullOrWhiteSpace(CreditCardNumber.Text))
-            {
-                if (int.TryParse(CreditCardNumber.Text, out value))
-                    if (value == 0)
-                        CVC.Text = "zero";
-                    else
-                        CVC.Text = value.ToString();
-                else
-                    CVC.Text = "parseFailed";
-            }
-            else
-            {
-                CVC.Text = "nullOrWhiteSpace";
-            }
+
+            //DEBUG:
+            //int value;
+            //if (!string.IsNullOrWhiteSpace(CreditCardNumber.Text))
+            //{
+            //    if (Int32.TryParse(CreditCardNumber.Text, out value))
+            //        if (value == 0)
+            //            CVC.Text = "zero";
+            //        else
+            //            CVC.Text = value.ToString();
+            //    else
+            //        CVC.Text = "parse returned not-an-integer";
+            //}
+            //else
+            //{
+            //    CVC.Text = "nullOrWhiteSpace";
+            //}
 
 
-            if (!string.IsNullOrWhiteSpace(CreditCardNumber.Text))
+            if (!string.IsNullOrWhiteSpace(CreditCardNumber.Text) && CreditCardNumber.Text.All((digit) => char.IsDigit(digit))) //test if ALL characters of string are numeric
             {
                 if (CreditCardNumber.Text.Length >= 1 && CreditCardNumber.Text[0] == '4')
                     validCardIndex = 0;

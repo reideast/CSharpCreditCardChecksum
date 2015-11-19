@@ -42,7 +42,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Label x:Name="labelProcessPayment" Grid.Row="1" Grid.Column="0" Content="Credit Card _Number:" HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Width="119" HorizontalContentAlignment="Right"/>
-            <TextBox x:Name="CreditCardNumber" Grid.Row="1" Grid.Column="2" Text="0000000000000000" MaxLength="16" Height="23" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox x:Name="CreditCardNumber" Grid.Row="1" Grid.Column="2" Text="" MaxLength="16" Height="23" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
             <Label x:Name="labelPayeeName" Grid.Row="3" Grid.Column="0" Content="_Payee Name:" HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Width="119" HorizontalContentAlignment="Right"/>
             <TextBox x:Name="PayeeName" Grid.Column="2" Height="23" Grid.Row="3" Text="" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
             <Label x:Name="labelExpirationDate" Grid.Row="5" Grid.Column="0" Content="E_xpiration Date:" HorizontalAlignment="Right" VerticalAlignment="Center" Height="26" Width="119" HorizontalContentAlignment="Right"/>
