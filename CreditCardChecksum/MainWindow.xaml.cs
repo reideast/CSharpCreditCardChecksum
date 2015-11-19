@@ -1,19 +1,10 @@
-﻿//credit card validation rules from: http://web.eecs.umich.edu/~bartlett/credit_card_number.html
+﻿//credit card validation rules/math from: http://web.eecs.umich.edu/~bartlett/credit_card_number.html
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CreditCardChecksum
 {
@@ -22,6 +13,9 @@ namespace CreditCardChecksum
     /// </summary>
     public partial class MainWindow : Window
     {
+        //TODO: implement data array for all credit cards
+        //TODO: create XAML Image controls on-the-fly with that data (that is possible with C#, right??)
+        //TODO: put rules into data array via: length lambda function, prefix lambda function!
         private BitmapImage[] visa = { new BitmapImage(new Uri("Card_Visa_active.gif", UriKind.Relative)), new BitmapImage(new Uri("Card_Visa_inactive.gif", UriKind.Relative)) };
         private BitmapImage[] masterCard = { new BitmapImage(new Uri("Card_MasterCard_active.gif", UriKind.Relative)), new BitmapImage(new Uri("Card_MasterCard_inactive.gif", UriKind.Relative)) };
         private BitmapImage[] discover = { new BitmapImage(new Uri("Card_Discover_active.gif", UriKind.Relative)), new BitmapImage(new Uri("Card_Discover_inactive.gif", UriKind.Relative)) };
@@ -49,6 +43,9 @@ namespace CreditCardChecksum
             }
             else
             {
+
+                //TODO: if (cardTypesArray.All( (cardType) => cardType.Validate(CreditCardNumber.Text) ) ....
+
                 //validCardIndex will be 0-3 for the four credit card types (and therefore MUST be 100% numeric) or -1 for invalid
                 if ((validCardIndex == 0 && (CreditCardNumber.Text.Length == 16 || CreditCardNumber.Text.Length == 13))
                  || (validCardIndex == 1 && CreditCardNumber.Text.Length == 16)
@@ -105,7 +102,7 @@ namespace CreditCardChecksum
                 // 9-6=3   9-7=2   9-8=1   9-9=0 //testing ()
                 // 12-9=3  14-9=5  16-9=7  18-9=9 //testing
             }
-            MessageBox.Show(sum.ToString()); //4011 == 11
+            //MessageBox.Show(sum.ToString()); //4011 == 11
 
             if (sum % 10 == 0)
                 return true;
